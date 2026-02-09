@@ -7,6 +7,16 @@ const co2Svg = d3
   .attr("width", width)
   .attr("height", height);
 
+const lifeExpectancySvg = d3
+  .select("#life-expectancy-histogram")
+  .attr("width", width)
+  .attr("height", height);
+
+const scatterPlotSvg = d3
+  .select("#scatter-plot")
+  .attr("width", width)
+  .attr("height", height);
+
 d3.csv("data/co2_life_expectancy.csv").then(data => {
   data.forEach(d => {
     d.co2_per_capita = +d.co2_per_capita;
@@ -14,4 +24,6 @@ d3.csv("data/co2_life_expectancy.csv").then(data => {
   });
 
   drawCO2Histogram(co2Svg, data, width, height, margin);
+  drawLifeExpectancyHistogram(lifeExpectancySvg, data, width, height, margin);
+  drawScatterPlot(scatterPlotSvg, data, width, height, margin);
 });
