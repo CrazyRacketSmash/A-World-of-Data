@@ -6,7 +6,7 @@ life = pd.read_csv("life-expectancy.csv")
 
 # Rename columns for clarity
 co2 = co2.rename(columns={
-    "CO₂ emissions per capita": "co2_per_capita",
+    "CO2 emissions per capita": "co2_per_capita",
     "Year": "co2_year"
 })
 

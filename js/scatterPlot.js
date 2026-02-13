@@ -31,7 +31,7 @@ function drawScatterPlot(svg, data, width, height, margin) {
     .attr("x", width / 2)
     .attr("y", height - 10)
     .attr("text-anchor", "middle")
-    .text("CO₂ emissions per capita");
+    .text("CO2 emissions per capita");
 
   // Y-axis label
   svg.append("text")
