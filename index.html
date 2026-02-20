@@ -23,13 +23,15 @@
       <h3>Distribution of Life Expectancy</h3>
       <svg id="life-expectancy-histogram"></svg>
     </div>
-    <div>
-      <h3>Relationship between CO2 Emissions and Life Expectancy</h3>
-      <svg id="scatter-plot"></svg>
-    </div>
   </div>
-  
-
+  <div>
+    <h3>Relationship between CO2 Emissions and Life Expectancy</h3>
+    <svg id="scatter-plot"></svg>
+  </div>
+  <div id="controls">
+    <label for="attributeSelect">Color by:</label>
+    <select id="attributeSelect"></select>
+  </div>
   <h3>Choropleth Map of CO2 Emissions and life expectancy</h3>
   <div style="display: flex; gap: 20px;">
     <svg id="co2-map"></svg>
