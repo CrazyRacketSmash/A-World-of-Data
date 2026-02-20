@@ -2,31 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CO₂ Emissions and Life Expectancy</title>
+  <title>CO2 Emissions and Life Expectancy</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
 
-  <h1>CO₂ Emissions and Life Expectancy</h1>
+  <h1>CO2 Emissions and Life Expectancy</h1>
   <p>Name: <strong>Huy Nguyen</strong></p>
   <p>
     <u><i>Data source</i></u>: Our World in Data <br />
-    CO₂ emissions per capita (2024), Life expectancy (2023)
+    CO2 emissions per capita (2024), Life expectancy (2023)
   </p>
-
-  <h3>Distribution of CO₂ Emissions per Capita</h3>
-  <svg id="co2-histogram"></svg>
-
-  <h3>Distribution of Life Expectancy</h3>
-  <svg id="life-expectancy-histogram"></svg>
-
-  <h3>Relationship between CO₂ Emissions and Life Expectancy</h3>
-  <svg id="scatter-plot"></svg>
+  <div style="display: inline-flex">
+    <div>
+      <h3>Distribution of CO2 Emissions per Capita</h3>
+      <svg id="co2-histogram"></svg>
+    </div>
+    <div>
+      <h3>Distribution of Life Expectancy</h3>
+      <svg id="life-expectancy-histogram"></svg>
+    </div>
+  </div>
+  <div>
+    <h3>Relationship between CO2 Emissions and Life Expectancy</h3>
+    <svg id="scatter-plot"></svg>
+  </div>
+  <div id="controls">
+    <label for="attributeSelect">Color by:</label>
+    <select id="attributeSelect"></select>
+  </div>
+  <h3>Choropleth Map of CO2 Emissions and life expectancy</h3>
+  <div style="display: flex; gap: 20px;">
+    <svg id="co2-map"></svg>
+    <svg id="life-map"></svg>
+  </div>
 
   <script src="js/co2Histogram.js"></script>
   <script src="js/lifeExpectancyHistogram.js"></script>
   <script src="js/scatterPlot.js"></script>
+  <script src="js/choroplethMap.js"></script>
   <script src="js/main.js"></script>
 
 </body>
