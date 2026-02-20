@@ -18,6 +18,26 @@ function drawLifeExpectancyHistogram(svg, data, width, height, margin) {
     .selectAll("rect")
     .data(bins)
     .join("rect")
+      .on("mouseover", function (event, d) {
+        d3.select(this)
+            .attr("stroke", "black")
+            .attr("stroke-width", 1.5)
+        tooltip
+          .style("opacity", 1)
+          .html(`
+            <strong>Range:</strong> ${d.x0.toFixed(1)} – ${d.x1.toFixed(1)}<br/>
+            <strong>Countries:</strong> ${d.length}
+          `);
+      })
+      .on("mousemove", event => {
+        tooltip
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", function () {
+        d3.select(this).attr("stroke", "none");
+        tooltip.style("opacity", 0);
+      })
     .attr("x", d => x(d.x0) + 1)
     .attr("y", d => y(d.length))
     .attr("width", d => x(d.x1) - x(d.x0) - 1)

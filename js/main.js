@@ -67,6 +67,17 @@ Promise.all([
   attributeSelect(updateVisualizations);
   updateVisualizations(selectedAttribute);
 });
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("background", "rgba(0,0,0,0.8)")
+  .style("color", "white")
+  .style("padding", "6px 8px")
+  .style("border-radius", "4px")
+  .style("font-size", "12px")
+  .style("pointer-events", "none")
+  .style("opacity", 0);
 
 function updateVisualizations(attributeKey) {
   selectedAttribute = attributeKey;
