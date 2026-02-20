@@ -40,7 +40,26 @@ function drawScatterPlot({
     .attr("fill", d =>
       colorAttr && colorScheme ? colorScheme(d[colorAttr]) : "#4682b4"
     )
-    .attr("opacity", 0.7);
+    .attr("opacity", 0.7)
+    .on("mouseover", function (event, d) {
+      d3.select(this).attr("r", 10);
+      tooltip
+        .style("opacity", 1)
+        .html(`
+          <strong>${d.country}</strong><br/>
+          ${xAttr}: ${d[xAttr].toFixed(2)}<br/>
+          ${yAttr}: ${d[yAttr].toFixed(2)}
+        `);
+    })
+    .on("mousemove", event => {
+      tooltip
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", function () {
+      d3.select(this).attr("r", 4);
+      tooltip.style("opacity", 0);
+    });
 
   // X-axis label
   svg.append("text")
