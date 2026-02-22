@@ -21,7 +21,7 @@ function drawScatterPlot({
     .domain(d3.extent(data, d => d[yAttr]))
     .range([height - margin.bottom, margin.top]);
 
-  const brush = d3.brushX()
+  const brush = d3.brush()
     .extent([[margin.left - 5,0], [width - margin.right + 5, height - margin.bottom]])
     .on("brush end", brushed);
 
@@ -32,6 +32,7 @@ function drawScatterPlot({
   function brushed({ selection }) {
     if (!selection) {
       selectedCountries.clear();
+      updateScatterplot();
       return;
     }
 
@@ -41,13 +42,23 @@ function drawScatterPlot({
 
     svg.selectAll("circle")
       .each(function (d) {
-        const cx = xScale(d[xAttr]);
-        const cy = yScale(d[yAttr]);
+        const cx = x(d[xAttr]);
+        const cy = y(d[yAttr]);
 
         if (x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1) {
           selectedCountries.add(d.country);
         }
       });
+    updateScatterplot();
+  }
+  function updateScatterplot() {
+    svg.selectAll("circle")
+      .classed("selected", d =>
+          selectedCountries.size > 0 && selectedCountries.has(d.country)
+        )
+      .classed("faded", d =>
+        selectedCountries.size > 0 && !selectedCountries.has(d.country)
+      );
   }
   // Axes
   svg.append("g")

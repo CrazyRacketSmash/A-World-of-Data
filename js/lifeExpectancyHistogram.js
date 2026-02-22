@@ -25,6 +25,7 @@ function drawLifeExpectancyHistogram(svg, data, width, height, margin) {
   function brushed({ selection }) {
     if (!selection) {
       selectedCountries.clear();
+      updateLifeHistogram();
       return;
     }
 
@@ -32,13 +33,25 @@ function drawLifeExpectancyHistogram(svg, data, width, height, margin) {
 
     selectedCountries = new Set(
       data
-        .filter(d => d.co2_per_capita >= x0 && d.co2_per_capita <= x1)
+        .filter(d => d.life_expectancy >= x0 && d.life_expectancy <= x1)
         .map(d => d.country)
     );
+    updateLifeHistogram();
+  }
+  function updateLifeHistogram() {
+    svg.selectAll(".life-histogram rect")
+      .classed("selected", d =>
+        d.some(row => selectedCountries.has(row.country))
+      )
+      .classed("faded", d =>
+        selectedCountries.size > 0 &&
+        !d.some(row => selectedCountries.has(row.country))
+      );
   }
   
   svg.append("g")
-    .selectAll("rect")
+    .attr("class", "life-histogram")
+    .selectAll(".life-histogram rect")
     .data(bins)
     .join("rect")
       .on("mouseover", function (event, d) {
