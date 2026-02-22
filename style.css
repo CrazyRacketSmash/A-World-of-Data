@@ -10,3 +10,12 @@ svg {
 h1, h2 {
   color: #333;
 }
+
+.selected {
+  stroke: black;
+  stroke-width: 2;
+}
+
+.faded {
+  opacity: 0.2;
+}

@@ -25,6 +25,7 @@ function drawCO2Histogram(svg, data, width, height, margin) {
   function brushed({ selection }) {
     if (!selection) {
       selectedCountries.clear();
+      updateHistogram();
       return;
     }
 
@@ -35,10 +36,23 @@ function drawCO2Histogram(svg, data, width, height, margin) {
         .filter(d => d.co2_per_capita >= x0 && d.co2_per_capita <= x1)
         .map(d => d.country)
     );
+    updateHistogram();
   }
 
+  function updateHistogram() {
+    svg.selectAll(".histogram rect")
+      .classed("selected", d =>
+        d.some(row => selectedCountries.has(row.country))
+      )
+      .classed("faded", d =>
+        selectedCountries.size > 0 &&
+        !d.some(row => selectedCountries.has(row.country))
+      );
+  }
+  
   svg.append("g")
-    .selectAll("rect")
+    .attr("class", "histogram")
+    .selectAll(".histogram rect")
     .data(bins)
     .join("rect")
       .on("mouseover", function (event, d) {
