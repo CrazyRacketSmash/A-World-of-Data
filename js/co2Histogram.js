@@ -14,6 +14,29 @@ function drawCO2Histogram(svg, data, width, height, margin) {
     .nice()
     .range([height - margin.bottom, margin.top]);
 
+  const brush = d3.brushX()
+    .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
+    .on("brush end", brushed);
+  
+  svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+    
+  function brushed({ selection }) {
+    if (!selection) {
+      selectedCountries.clear();
+      return;
+    }
+
+    const [x0, x1] = selection.map(x.invert);
+
+    selectedCountries = new Set(
+      data
+        .filter(d => d.co2_per_capita >= x0 && d.co2_per_capita <= x1)
+        .map(d => d.country)
+    );
+  }
+
   svg.append("g")
     .selectAll("rect")
     .data(bins)

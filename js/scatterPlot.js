@@ -21,6 +21,34 @@ function drawScatterPlot({
     .domain(d3.extent(data, d => d[yAttr]))
     .range([height - margin.bottom, margin.top]);
 
+  const brush = d3.brushX()
+    .extent([[margin.left - 5,0], [width - margin.right + 5, height - margin.bottom]])
+    .on("brush end", brushed);
+
+  svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+  function brushed({ selection }) {
+    if (!selection) {
+      selectedCountries.clear();
+      return;
+    }
+
+    const [[x0, y0], [x1, y1]] = selection;
+
+    selectedCountries = new Set();
+
+    svg.selectAll("circle")
+      .each(function (d) {
+        const cx = xScale(d[xAttr]);
+        const cy = yScale(d[yAttr]);
+
+        if (x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1) {
+          selectedCountries.add(d.country);
+        }
+      });
+  }
   // Axes
   svg.append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -75,6 +103,4 @@ function drawScatterPlot({
     .attr("y", 15)
     .attr("text-anchor", "middle")
     .text(yAttr.replaceAll("_", " "));
-
-    console.log(data[0][xAttr]);
 }
