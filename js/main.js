@@ -62,7 +62,7 @@ Promise.all([
   drawCO2Histogram(co2Svg, data, width, height, margin);
   drawLifeExpectancyHistogram(lifeExpectancySvg, data, width, height, margin);
   drawChoropleth(co2MapSvg, geoData, data, "co2_per_capita", d3.interpolateBlues, width, height);
-  drawChoropleth(lifeMapSvg, geoData, data, "life_expectancy", d3.interpolateGreens, width, height);
+  drawLifeChoropleth(lifeMapSvg, geoData, data, "life_expectancy", d3.interpolateGreens, width, height);
   
   attributeSelect(updateVisualizations);
   updateVisualizations(selectedAttribute);
@@ -96,6 +96,16 @@ function updateVisualizations(attributeKey) {
 
   drawChoropleth(
     co2MapSvg,
+    geoData,
+    data,
+    attributeKey,
+    attributeOptions[attributeKey].colorScheme,
+    width,
+    height
+  );
+
+  drawLifeChoropleth(
+    lifeMapSvg,
     geoData,
     data,
     attributeKey,
