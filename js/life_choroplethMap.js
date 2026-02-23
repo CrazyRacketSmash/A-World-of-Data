@@ -1,5 +1,4 @@
-function drawChoropleth(svg, geoData, data, attribute, colorScheme, width, height) {
-  let selectedCountries = new Set();
+function drawLifeChoropleth(svg, geoData, data, attribute, colorScheme, width, height) {
   const dataByCountry = new Map(
     data.map(d => [d.country, d])
   );
@@ -48,7 +47,7 @@ function drawChoropleth(svg, geoData, data, attribute, colorScheme, width, heigh
   }
 
   function updateMapViews() {
-    d3.selectAll(".co2 path")
+    d3.selectAll(".life path")
       .classed("selected", d => {
         const name = getCountryName(d);
           return name && selectedCountries.has(name);
@@ -64,8 +63,8 @@ function drawChoropleth(svg, geoData, data, attribute, colorScheme, width, heigh
   }
     
   svg.append("g")
-    .attr("class", "co2")
-    .selectAll(".co2 path")
+    .attr("class", "life")
+    .selectAll(".life path")
     .data(geoData.features)
     .join("path")
       .on("mouseover", function (event, d) {
