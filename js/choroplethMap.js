@@ -15,9 +15,11 @@ function drawChoropleth(svg, geoData, data, attribute, colorScheme, width, heigh
 
   const values = data.map(d => d[attribute]);
 
-  const color = d3.scaleSequential()
-    .domain(d3.extent(values))
-    .interpolator(colorScheme);
+  const thresholds = [1, 3, 6, 10];
+
+  const color = d3.scaleThreshold()
+    .domain(thresholds)
+    .range(d3.schemeReds[thresholds.length + 1]);
 
   const brush = d3.brush()
   .extent([[0, 0], [width, height]])
@@ -107,4 +109,35 @@ function drawChoropleth(svg, geoData, data, attribute, colorScheme, width, heigh
       return value ? color(value) : "#ccc";
     })
     .attr("stroke", "#fff");
+
+  const legendData = color.range().map((c, i) => {
+    return {
+      color: c,
+      label:
+        i === 0
+          ? `< ${thresholds[0]}`
+          : i === thresholds.length
+            ? `≥ ${thresholds[i - 1]}`
+            : `${thresholds[i - 1]} – ${thresholds[i]}`
+    };
+  });
+
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - 550}, 220)`);
+
+  legend.selectAll("rect")
+    .data(legendData)
+    .join("rect")
+    .attr("y", (d, i) => i * 22)
+    .attr("width", 18)
+    .attr("height", 18)
+    .attr("fill", d => d.color);
+
+  legend.selectAll("text")
+    .data(legendData)
+    .join("text")
+    .attr("x", 25)
+    .attr("y", (d, i) => i * 22 + 13)
+    .text(d => d.label)
+    .attr("font-size", "12px");
 }
